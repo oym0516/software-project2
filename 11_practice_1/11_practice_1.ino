@@ -24,7 +24,6 @@
 #define _TARGET_HIGH 290.0
 
 // duty duration for myservo.writeMicroseconds()
-// NEEDS TUNING (servo by servo)
 #define _DUTY_MIN 1000 // servo full clockwise position (0 degree)
 #define _DUTY_NEU 1500 // servo neutral position (90 degree)
 #define _DUTY_MAX 3000 // servo full counterclockwise position (180 degree)
@@ -78,17 +77,17 @@ void loop() {
   // adjust servo position according to the USS read value
   myservo.writeMicroseconds(((dist_ema - 180) / 9) * 1300);
 
-  // 시리얼 플로터용 출력 (숫자만 출력)
-  Serial.print(dist_ema); // 거리 값
-  Serial.print(",");      // 구분자
-  Serial.println(myservo.read()); // 서보 각도
+  // 시리얼 플로터용 출력 
+  Serial.print(dist_ema); 
+  Serial.print(",");      
+  Serial.println(myservo.read()); 
 
   // update last sampling time
   last_sampling_time += INTERVAL;
 
   // LED 제어 (active-low)
-  if (dist_ema >= _DIST_MIN && dist_ema <= _DIST_MAX) {
-    digitalWrite(PIN_LED, LOW); // LED 켜기 (active-low)
+  if (dist_raw >= _DIST_MIN && dist_raw <= _DIST_MAX) {
+    digitalWrite(PIN_LED, LOW); // LED 켜기 
   } else {
     digitalWrite(PIN_LED, HIGH); // LED 끄기
   }
